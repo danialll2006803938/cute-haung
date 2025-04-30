@@ -2,24 +2,36 @@
 <!DOCTYPE html>
 <html lang="zh">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Haung专属温馨留言</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Haung的温柔世界</title>
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC&display=swap');
+
     body {
-      background-color: #ffe6f0;
+      margin: 0;
       font-family: 'Noto Sans SC', sans-serif;
+      background: linear-gradient(-45deg, #ffe0f0, #ffd6ec, #ffe6f7, #ffcce0);
+      background-size: 400% 400%;
+      animation: gradientBG 15s ease infinite;
       color: #d63384;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
       height: 100vh;
-      margin: 0;
+      overflow: hidden;
       text-align: center;
     }
+
+    @keyframes gradientBG {
+      0% {background-position: 0% 50%;}
+      50% {background-position: 100% 50%;}
+      100% {background-position: 0% 50%;}
+    }
+
     .message-box {
-      background: #fff0f5;
+      background: rgba(255, 240, 250, 0.9);
       border: 2px solid #ffc0cb;
       border-radius: 30px;
       padding: 30px;
@@ -27,34 +39,65 @@
       max-width: 500px;
       font-size: 1.5rem;
       position: relative;
+      z-index: 1;
     }
+
     .anime-image {
-      width: 150px;
+      width: 180px;
+      height: 180px;
+      object-fit: cover;
       border-radius: 20px;
       margin-bottom: 20px;
+      transition: opacity 0.5s ease;
     }
+
     .hearts {
       font-size: 2rem;
-      margin-bottom: 10px;
+      animation: floatHearts 2s infinite;
     }
+
+    @keyframes floatHearts {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
     footer {
-      position: absolute;
+      position: fixed;
       bottom: 10px;
       font-size: 0.9rem;
       color: #777;
+      z-index: 0;
+    }
+
+    .change-btn {
+      margin-top: 15px;
+      padding: 10px 20px;
+      font-size: 1rem;
+      background-color: #ffb6c1;
+      border: none;
+      border-radius: 15px;
+      cursor: pointer;
+      color: white;
+      transition: background 0.3s ease;
+    }
+
+    .change-btn:hover {
+      background-color: #ff8fb1;
     }
   </style>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC&display=swap" rel="stylesheet">
 </head>
 <body>
   <div class="message-box">
     <div class="hearts">❤️❤️❤️</div>
-    <img src="https://i.pinimg.com/564x/e1/12/07/e11207e623d489256cc83b8f77de8e58.jpg" alt="cute anime" class="anime-image">
+    <img src="" alt="anime" class="anime-image" id="animeImg"/>
     <div id="message">你好美丽，Haung！</div>
+    <button class="change-btn" onclick="updateMessage()">换一句话</button>
   </div>
   <footer>© Danial Kurdi</footer>
-  
-  <audio id="chime" src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_f8baaaeb72.mp3?filename=chinese-flute-1596.mp3"></audio>
+
+  <audio id="bgmusic" autoplay loop>
+    <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_f8baaaeb72.mp3?filename=chinese-flute-1596.mp3" type="audio/mpeg">
+  </audio>
 
   <script>
     const messages = [
@@ -64,18 +107,30 @@
       "你是我每天醒来的动力。",
       "你美得像一幅画，让我无法移开目光。",
       "你的声音像清风一样轻柔动人。",
-      "Haung，你是我心中最美的诗。"
+      "Haung，你是我心中最美的诗。",
+      "你的眼睛里藏着星辰大海。",
+      "你走进我的世界，如诗如梦。"
+    ];
+
+    const images = [
+      "https://i.pinimg.com/564x/6f/56/2e/6f562e0d8d5d4b383f9e96b701e7aaf1.jpg",
+      "https://i.pinimg.com/564x/71/8d/55/718d556671cc0d03ff8cbe97b9be07aa.jpg",
+      "https://i.pinimg.com/564x/7f/b4/6f/7fb46f984208f6ec96b8f04ae81ee2e1.jpg",
+      "https://i.pinimg.com/564x/e1/12/07/e11207e623d489256cc83b8f77de8e58.jpg",
+      "https://i.pinimg.com/564x/c4/17/5b/c4175b9ae2b3a2410fef2d84462d8970.jpg"
     ];
 
     const messageBox = document.getElementById('message');
-    const chime = document.getElementById('chime');
+    const imageBox = document.getElementById('animeImg');
 
     function updateMessage() {
       const msg = messages[Math.floor(Math.random() * messages.length)];
+      const img = images[Math.floor(Math.random() * images.length)];
       messageBox.textContent = msg;
-      chime.play();
+      imageBox.src = img;
     }
 
+    updateMessage(); // Load first time
     setInterval(updateMessage, 20000);
   </script>
 </body>
